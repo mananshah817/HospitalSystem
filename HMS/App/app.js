@@ -1,6 +1,6 @@
 ﻿agGrid.initialiseAgGridWithAngular1(angular);
 
-hospitalApp = angular.module('hospitalApp', ['ngResource', 'ngSanitize', 'agGrid', 'ngCookies', 'ngAnimate', 'toaster', 'ngDialog', 'ui.utils.masks', '720kb.datepicker', 'angularjs-datetime-picker', 'angularjs-dropdown-multiselect']);
+hospitalApp = angular.module('hospitalApp', ['ngResource', 'ngSanitize', 'agGrid', 'ngCookies', 'ngAnimate', 'toaster', 'ngDialog', '720kb.datepicker', 'angularjs-datetime-picker', 'angularjs-dropdown-multiselect']);
 
 const ErrorType = {
     DotNet: 101,

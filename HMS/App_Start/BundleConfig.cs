@@ -9,7 +9,7 @@ namespace HMS.App_Start
         {
             #region Common Files
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/lib/jquery/dist/jquery.js"));
+                        "~/Scripts/jquery-3.6.0.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));

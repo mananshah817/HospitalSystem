@@ -33,6 +33,7 @@
                     </li>
                 </ul>
                 <form class="d-flex">
+                    <span class="me-2 fw-bold text-md-start mt-1">Welcome, @ViewBag.User</span>
                     <a class="btn btn-outline-success" href="@Url.Action("LogOut","Login")" type="submit">LogOut</a>
                 </form>
             </div>
@@ -45,15 +46,23 @@
             <p>&copy; @DateTime.Now.Year - Hospital Managment System</p>
         </footer>
     </div>
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/angularjs")
+
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/respond.min.js"></script>
+    <script src="~/Lib/angular/angular.js"></script>
+    <script src="~/Lib/angular/angular-resource.js"></script>
+    <script src="~/Lib/angular/angular-animate.js"></script>
+    <script src="~/Lib/angular/angular-sanitize.js"></script>
+    <script src="~/Lib/angular/angular-route.js"></script>
+    <script src="~/Lib/angular/angular-cookies.js"></script>
+    <script src="~/Lib/angularjs-datepicker/dist/angular-datepicker.min.js"></script>
     <script src="~/Lib/ng-dialog/js/ngDialog.js"></script>
     <script src="~/Lib/ag-grid-community/dist/ag-grid-community.js"></script>
     <script src="~/lib/angularjs-toaster/toaster.js"></script>
     <script src="~/Lib/angularjs-dropdown-multiselect/dist/src/angularjs-dropdown-multiselect.js"></script>
-    <script src="~/App/app.js?V=1"></script>
+    <script src="~/App/app.js"></script>
     <script src="~/App/Directive/AutoComplete.js"></script>
     <script src="~/App/Directive/Capitalize.js"></script>
     <script src="~/App/Directive/NumberOnly.js"></script>
