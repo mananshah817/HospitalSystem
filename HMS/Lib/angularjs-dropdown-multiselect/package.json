@@ -1,0 +1,109 @@
+{
+  "_from": "angularjs-dropdown-multiselect",
+  "_id": "angularjs-dropdown-multiselect@2.0.0-beta.10",
+  "_inBundle": false,
+  "_integrity": "sha1-/7R63w33M/PalM5JyE+PBdJHKl8=",
+  "_location": "/angularjs-dropdown-multiselect",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "angularjs-dropdown-multiselect",
+    "name": "angularjs-dropdown-multiselect",
+    "escapedName": "angularjs-dropdown-multiselect",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "http://devops.evenusjewel.com:8081/repository/npm/angularjs-dropdown-multiselect/-/angularjs-dropdown-multiselect-2.0.0-beta.10.tgz",
+  "_shasum": "ffb47adf0df733f3da94ce49c84f8f05d2472a5f",
+  "_spec": "angularjs-dropdown-multiselect",
+  "_where": "C:\\Users\\pranjal",
+  "author": {
+    "name": "pkempenaers@myforce.be"
+  },
+  "bugs": {
+    "url": "https://github.com/dotansimha/angularjs-dropdown-multiselect/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "angular": "~1"
+  },
+  "deprecated": false,
+  "description": "This directive gives you a Bootstrap Dropdown with the power of AngularJS directives.",
+  "devDependencies": {
+    "babel-core": "~6.7.4",
+    "babel-loader": "~6.2.4",
+    "babel-preset-es2015": "~6.6.0",
+    "browser-sync": "~2.9.11",
+    "browser-sync-spa": "~1.0.3",
+    "chalk": "~1.1.1",
+    "del": "~2.0.2",
+    "eslint": "~3.17.1",
+    "eslint-config-airbnb": "~14.1.0",
+    "eslint-loader": "~1.6.1",
+    "eslint-plugin-angular": "~1.5.1",
+    "eslint-plugin-import": "~2.2.0",
+    "eslint-plugin-jsx-a11y": "~3.0.2",
+    "eslint-plugin-react": "~6.9.0",
+    "estraverse": "~4.1.0",
+    "gulp": "~3.9.0",
+    "gulp-angular-templatecache": "~1.8.0",
+    "gulp-autoprefixer": "~3.0.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssnano": "~2.1.1",
+    "gulp-eslint": "~3.0.1",
+    "gulp-filter": "~3.0.1",
+    "gulp-flatten": "~0.2.0",
+    "gulp-htmlmin": "~1.3.0",
+    "gulp-inject": "~3.0.0",
+    "gulp-load-plugins": "~0.10.0",
+    "gulp-protractor": "~2.1.0",
+    "gulp-rename": "~1.2.2",
+    "gulp-replace": "~0.5.4",
+    "gulp-sass": "~2.0.4",
+    "gulp-size": "~2.0.0",
+    "gulp-sourcemaps": "~1.6.0",
+    "gulp-uglify": "~1.4.1",
+    "gulp-useref": "~3.0.3",
+    "gulp-util": "~3.0.6",
+    "http-proxy-middleware": "~0.9.0",
+    "karma": "~1.5.0",
+    "karma-coverage": "~1.1.1",
+    "karma-jasmine": "~1.1.0",
+    "karma-ng-html2js-preprocessor": "~0.2.0",
+    "karma-phantomjs-launcher": "~1.0.2",
+    "karma-phantomjs-shim": "~1.4.0",
+    "lodash": "~3.10.1",
+    "main-bower-files": "~2.9.0",
+    "ng-annotate-loader": "0.0.10",
+    "phantomjs": "~2.1.7",
+    "run-sequence": "^1.2.2",
+    "uglify-save-license": "~0.4.1",
+    "webpack-stream": "~2.1.1",
+    "wiredep": "~2.2.2"
+  },
+  "engines": {
+    "node": ">=0.10.10"
+  },
+  "homepage": "http://dotansimha.github.io/angularjs-dropdown-multiselect/#/",
+  "keywords": [
+    "angular",
+    "multiselect"
+  ],
+  "license": "MIT",
+  "main": "dist/angularjs-dropdown-multiselect.min.js",
+  "name": "angularjs-dropdown-multiselect",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dotansimha/angularjs-dropdown-multiselect.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "2.0.0-beta.10"
+}
