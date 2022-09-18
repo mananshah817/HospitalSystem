@@ -15,38 +15,30 @@ namespace HMS.App_Start
                         "~/Scripts/jquery.validate*"));
 
             bundles.Add(new ScriptBundle("~/bundles/angularjs").Include(
-                        "~/lib/angular/angular.js",
-                        "~/lib/angular/angular-resource.js",
-                        "~/lib/angular/angular-sanitize.js",
-                        "~/lib/angular/angular-animate.js",
-                        "~/lib/angular/angular-route.js",
-                        "~/lib/angular/angular-cookies.js",
-                        "~/lib/angular-input-masks/releases/angular-input-masks-standalone.js",
-                        "~/lib/angularjs-datepicker/dist/angular-datepicker.js"));
+                        "~/Lib/angular/angular.js",
+                        "~/Lib/angular/angular-resource.js",
+                        "~/Lib/angular/angular-sanitize.js",
+                        "~/Lib/angular/angular-animate.js",
+                        "~/Lib/angular/angular-route.js",
+                        "~/Lib/angular/angular-cookies.js",
+                        "~/Lib/angular-input-masks/releases/angular-input-masks-standalone.js",
+                        "~/Lib/angularjs-datepicker/dist/angular-datepicker.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/lib/bootstrap/dist/js/bootstrap.js",
+                      "~/Scripts/bootstrap.min.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                       "~/lib/bootstrap/dist/css/bootstrap.css",
-                       "~/Lib/angular-ui-tree-master/dist/angular-ui-tree.min.css"));
+                       "~/Content/bootstrap.min.css"));
             #endregion
 
             #region MRD Froms
-            bundles.Add(new ScriptBundle("~/bundles/documentController").Include(
-                    "~/App/MRD/MRD/DocumentController.js",
-                    "~/App/Directive/fileModel.js",
-                    "~/App/MRD/MRD/DocumentService.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/mrdController").Include(
-                     "~/App/MRD/MRD/MRDController.js",
-                     "~/App/Directive/fileModel.js",
-                     "~/App/MRD/MRD/MRDService.js",
-                     "~/App/MRD/MRD/DocumentService.js"));
+                     "~/App/MedicalRecord/MedicalRecordController.js",
+                     "~/App/MedicalRecord/MedicalRecordService.js"));
             #endregion
 
             BundleTable.EnableOptimizations = true;

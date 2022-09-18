@@ -1,5 +1,4 @@
-﻿@using System.Web.Optimization;
-@{
+﻿@{
     Layout = null;
 }
 @model  HMS.Models.Status
@@ -9,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Hospital Managment System</title>
-    <link href="~/Lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Lib/ag-grid-community/dist/styles/ag-grid.css" rel="stylesheet" />
     <link href="~/lib/angularjs-toaster/toaster.min.css" rel="stylesheet" />
@@ -74,17 +73,9 @@
         <!-- Jumbotron -->
     </section>
 
-    <script src="~/Scripts/modernizr-2.8.3.js"></script>
-    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/respond.min.js"></script>
-    <script src="~/Lib/angular/angular.js"></script>
-    <script src="~/Lib/angular/angular-resource.js"></script>
-    <script src="~/Lib/angular/angular-animate.js"></script>
-    <script src="~/Lib/angular/angular-sanitize.js"></script>
-    <script src="~/Lib/angular/angular-route.js"></script>
-    <script src="~/Lib/angular/angular-cookies.js"></script>
-    <script src="~/Lib/angularjs-datepicker/dist/angular-datepicker.min.js"></script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/angularjs")
     <script src="~/Lib/ng-dialog/js/ngDialog.js"></script>
     <script src="~/Lib/ag-grid-community/dist/ag-grid-community.js"></script>
     <script src="~/Lib/angularjs-toaster/toaster.js"></script>

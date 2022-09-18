@@ -1,0 +1,225 @@
+﻿@{
+    ViewBag.Title = "Medical Record";
+}
+
+<toaster-container toaster-options="{'close-button':true}"></toaster-container>
+<div class="mt-2" ng-controller="MedicalRecordController as vm" id="vm">
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
+               href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">
+                MRD
+            </a>
+
+            <a class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
+               href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">
+                Search
+            </a>
+        </div>
+    </nav>
+
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="row mt-1">
+                <div class="col-12" id="MasterView">
+                    <div class="card">
+                        <div class="mt-1 ms-1 mb-1 me-1">
+                            <div class="row">
+                                <h4 class="col-12 fw-bold text-center">Document Master</h4>
+
+                                <div class="col-2">
+                                    <select class="form-control form-control-sm" ng-model="vm.NoType">
+                                        <option value="">-- Select Type --</option>
+                                        <option value="IPD">IPD</option>
+                                        <option value="OPD">OPD</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-2" ng-show="vm.NoType === 'IPD'">
+                                    <input type="text" class="form-control form-control-sm fw-bold" placeholder="Enter IPD No"
+                                           ng-model="vm.IPDNo" />
+                                </div>
+
+                                <div class="col-2" ng-show="vm.NoType === 'OPD'">
+                                    <input type="text" class="form-control form-control-sm fw-bold" placeholder="Enter OPD No"
+                                           ng-model="vm.OPDNo" />
+                                </div>
+
+                                <div class="col-1">
+                                    <button class="btn btn-sm btn-primary" ng-click="vm.GetData(vm.IPDNo, vm.OPDNo)">
+                                        <span class="fa fa-database"> Fetch</span>
+                                    </button>
+                                </div>
+
+                                <div class="col-2">
+                                    <input type="text" class="form-control form-control-sm" ng-model="vm.filter.master"
+                                           ng-change="vm.filterGrid(vm.filter.master,vm.docMasterGridOptions)" placeholder="Search Doc Master">
+                                </div>
+
+                                <div class="col-5">
+                                    <button class="btn btn-sm pull-right btn-dark p-1 ms-1" ng-click="vm.clearAll()">
+                                        <span class="fa fa-eraser"> Refresh</span>
+                                    </button>
+
+                                    <button class="btn btn-success pull-right mb-1 btn-sm" ng-click="vm.editableBlockHandler('DocMaster','Add')">
+                                        <span class="fa fa-plus">Add</span>
+                                    </button>
+                                </div>
+
+                            </div>
+
+                            <div ag-grid="vm.docMasterGridOptions" style="height: 250px;" class="ag-theme-blue w-100 mt-1"></div>
+
+                            <div class="clearfix"></div>
+
+                            <div class="card mt-1 bg-black text-white" ng-if="vm.isDocMasterVisible">
+                                <div class="card-body p-3 pb-0" id="MasterView">
+                                    <div class="row">
+                                        <label class="col-1 mb-1">IPD</label>
+                                        <div class="form-group col-3 mb-1">
+                                            <input type="text" ng-model="vm.docMasterModel.IPDNo"
+                                                   class="form-control form-control-sm">
+                                        </div>
+
+                                        <label class="col-1 mb-1">OPD</label>
+                                        <div class="form-group col-3 mb-1">
+                                            <input type="text" ng-model="vm.docMasterModel.OPDNo"
+                                                   class="form-control form-control-sm">
+                                        </div>
+
+                                        <label class="col-1 mb-1">Category</label>
+                                        <div class="form-group col-3 mb-1">
+                                            <input type="text" ng-model="vm.docMasterModel.Category"
+                                                   class="form-control form-control-sm">
+                                            @*<select class="form-control form-control-sm" ng-model="vm.docMasterModel.DataType"
+                                                        ng-options="item for item in  vm.dataTypeList track by item">
+                                                    <option value="">-- Select DataType --</option>
+                                                </select>*@
+                                        </div>
+
+                                        <label class="col-1 mb-1">Doc Type</label>
+                                        <div class="form-group col-3 mb-1">
+                                            <input type="text" ng-model="vm.docMasterModel.DocType"
+                                                   class="form-control form-control-sm">
+                                        </div>
+
+                                        <div class="col-12 text-center mt-1">
+                                            <button type="button" class="btn btn-sm btn-success" ng-click="vm.saveBlockChanges('DocMaster','Add',   vm.docMasterModel)"
+                                                    ng-if="vm.docMasterBlockMode=='Add'">
+                                                <span class="fa fa-save"> Save</span>
+                                            </button>
+
+                                            <button type="button" class="btn btn-sm btn-primary" ng-click="vm.saveBlockChanges('DocMaster','Edit',  vm.docMasterModel)"
+                                                    ng-if="vm.docMasterBlockMode=='Edit'">
+                                                <span class="fa fa-pencil"> Edit</span>
+                                            </button>
+
+                                            <button type="button" class="btn btn-sm btn-danger" ng-click="vm.saveBlockChanges('DocMaster','Delete', vm.docMasterModel)"
+                                                    ng-if="vm.docMasterBlockMode=='Edit'">
+                                                <span class="fa fa-trash"> Delete</span>
+                                            </button>
+
+                                            <button type="button" class="btn btn-sm btn-danger" ng-click="vm.editableBlockHandler('DocMaster','Close')">
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12" id="DetailView">
+                    <div class="card">
+                        <div class="mt-1 ms-1 mb-1 me-1">
+                            <div class="row">
+                                <h4 class="col-12 fw-bold text-center">Document Detail</h4>
+
+                                <div class="col-2">
+                                    <input type="text" class="form-control form-control-sm" ng-model="vm.filter.detail"
+                                           ng-change="vm.filterValue(vm.filter.detail,vm.docDetailGridOptions)" placeholder="Search Doc Detail">
+                                </div>
+
+                                <div class="col-10">
+                                    <button class="btn btn-success pull-right mb-1  btn-sm" ng-click="vm.editableBlockHandler('DocDetail','Add')"
+                                            ng-disabled="vm.selectedMaster === 'N'">
+                                        <span class="fa fa-plus"> Add</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div ag-grid="vm.docDetailGridOptions" style="height: 250px;" class="ag-theme-blue w-100 mt-1"></div>
+                            <div class="clearfix"></div>
+
+                            <div class="card mt-1 bg-black text-white" ng-if="vm.isDocDetailVisible">
+                                <div class="card-body p-3 pb-0">
+                                    <div class="row">
+                                        <label class="col-1 mb-1">Doc Path</label>
+                                        <div class="form-group col-3 mb-1">
+                                            <input type="text" ng-model="vm.docDetailModel.DocPath"
+                                                   class="form-control form-control-sm">
+                                        </div>
+
+                                        <label class="col-1 mb-1">Remark</label>
+                                        <div class="form-group col-3 mb-1">
+                                            <input type="text" ng-model="vm.docDetailModel.Remark"
+                                                   class="form-control form-control-sm">
+                                        </div>
+
+                                        <div class="col-12 text-center">
+                                            <button type="button" class="btn btn-sm btn-success" ng-click="vm.saveBlockChanges('DocDetail','Add',   vm.docDetailModel)"
+                                                    ng-if="vm.docDetailBlockMode=='Add'">
+                                                <span class="fa fa-save"> Save</span>
+                                            </button>
+
+                                            <button type="button" class="btn btn-sm btn-primary" ng-click="vm.saveBlockChanges('DocDetail','Edit',  vm.docDetailModel)"
+                                                    ng-if="vm.docDetailBlockMode=='Edit'">
+                                                <span class="fa fa-pencil"> Edit</span>
+                                            </button>
+
+                                            <button type="button" class="btn btn-sm btn-danger" ng-click="vm.saveBlockChanges('DocDetail','Delete',vm.docDetailModel)"
+                                                    ng-if="vm.docDetailBlockMode=='Edit'">
+                                                <span class="fa fa-trash"> Delete</span>
+                                            </button>
+
+                                            <button type="button" class="btn btn-sm btn-danger" ng-click="vm.editableBlockHandler('DocDetail','Close')">
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <p>clicked profile</p>
+            <p>clicked profile</p>
+            <p>clicked profile</p>
+        </div>
+    </div>
+
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+        <div id="alert" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto fw-bold">{{vm.Title}}</strong>
+                <small>just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body fw-bold" style="background-color:white;">
+                {{vm.Body}}
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/mrdController")
+}

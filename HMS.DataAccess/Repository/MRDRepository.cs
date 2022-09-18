@@ -37,6 +37,31 @@ namespace HMS.DataAccess.Repository
         {
             _Transaction.Rollback();
         }
+
+        private DataTable GetQuery(string Type, string Pval1, string Pval2, string Pval3)
+        {
+            try
+            {
+                var dp = new DynamicParameters();
+                dp.Add("@P_TYPE", Type, DbType.String, ParameterDirection.Input);
+                dp.Add("@P_VAL_1", Pval1, DbType.String, ParameterDirection.Input);
+                dp.Add("@P_VAL_2", Pval2, DbType.String, ParameterDirection.Input);
+                dp.Add("@P_VAL_3", Pval3, DbType.String, ParameterDirection.Input);
+
+                var Conn = _connectionFactory.GetConnection;
+
+                var Result = Conn.ExecuteReader("WEBMASTER.dbo.GetQuery", dp, commandType: CommandType.StoredProcedure);
+
+                dt = new DataTable();
+                dt.Load(Result);
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
 
         #region MRD Repository
@@ -49,7 +74,7 @@ namespace HMS.DataAccess.Repository
                 dp.Add("@Flag", Flag, DbType.String, ParameterDirection.Input);
 
                 var Conn = _connectionFactory.GetConnection;
-                var List = Conn.Query<PaceDetail>("dbo.GetPatientDetailFromPace", dp, commandType: CommandType.StoredProcedure);
+                var List = Conn.Query<PaceDetail>("WEBMASTER.dbo.GetPatientDetailFromPace", dp, commandType: CommandType.StoredProcedure);
                 return List.FirstOrDefault();
             }
             catch (Exception ex)
@@ -79,31 +104,6 @@ namespace HMS.DataAccess.Repository
                 x.Pace = GetPaceDetail(x.IpdOpdNo, Flag);
             });
             return List;
-        }
-
-        private DataTable GetQuery(string Type, string Pval1, string Pval2, string Pval3)
-        {
-            try
-            {
-                var dp = new DynamicParameters();
-                dp.Add("@P_TYPE", Type, DbType.String, ParameterDirection.Input);
-                dp.Add("@P_VAL_1", Pval1, DbType.String, ParameterDirection.Input);
-                dp.Add("@P_VAL_2", Pval2, DbType.String, ParameterDirection.Input);
-                dp.Add("@P_VAL_3", Pval3, DbType.String, ParameterDirection.Input);
-
-                var Conn = _connectionFactory.GetConnection;
-
-                var Result = Conn.ExecuteReader("ven.dbo.GetQuery", dp, commandType: CommandType.StoredProcedure);
-
-                dt = new DataTable();
-                dt.Load(Result);
-
-                return dt;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
         }
 
         public MrdDetail AddMrdDetail(MrdDetail Entity, User User)
@@ -295,7 +295,224 @@ namespace HMS.DataAccess.Repository
                 throw ex;
             }
         }
+
+        public DocumentDetail AddYojnaDocument(DocumentDetail Entity, User User)
+        {
+            try
+            {
+                var dp = new DynamicParameters();
+                dp.Add("@DocumentTranId", Entity.DocumentTranId, DbType.Int64, ParameterDirection.Input);
+                dp.Add("@DetailId", Entity.DetailId, DbType.Int64, ParameterDirection.Input);
+                dp.Add("@DocumentId", Entity.DocumentId, DbType.Int64, ParameterDirection.Input);
+
+                dp.Add("@Path", Entity.Path, DbType.String, ParameterDirection.Input);
+                dp.Add("@Remark", Entity.Remark, DbType.String, ParameterDirection.Input);
+                if (Entity.CheckList != null)
+                    dp.Add("@IsCheckList", Entity.CheckList, DbType.String, ParameterDirection.Input);
+                else
+                    dp.Add("@IsCheckList", Entity.IsChecked ? "Y" : "N", DbType.String, ParameterDirection.Input);
+
+                dp.Add("@UserName", User.UserName, DbType.String, ParameterDirection.Input);
+                dp.Add("@O_DocumentTranId", null, DbType.Int64, ParameterDirection.Output);
+
+                var Conn = _connectionFactory.GetConnection;
+                Conn.Execute("dbo.PopYojanaDocument", dp, commandType: CommandType.StoredProcedure);
+                Entity.DocumentTranId = dp.Get<long>("@O_DocumentTranId");
+
+                return Entity;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public DocumentDetail AddYojnaDocumentExt(DocumentDetail Entity, User User)
+        {
+            try
+            {
+                var dp = new DynamicParameters();
+                dp.Add("@DocumentExtTranId", Entity.DocumentExtTranId, DbType.Int64, ParameterDirection.Input);
+                dp.Add("@DetailId", Entity.DetailId, DbType.Int64, ParameterDirection.Input);
+                dp.Add("@Description", Entity.Description, DbType.String, ParameterDirection.Input);
+                dp.Add("@Flag", Entity.Flag, DbType.String, ParameterDirection.Input);
+
+                dp.Add("@Path", Entity.Path, DbType.String, ParameterDirection.Input);
+                dp.Add("@Remark", Entity.Remark, DbType.String, ParameterDirection.Input);
+
+                dp.Add("@UserName", User.UserName, DbType.String, ParameterDirection.Input);
+                dp.Add("@O_DocumentExtTranId", null, DbType.Int64, ParameterDirection.Output);
+
+                var Conn = _connectionFactory.GetConnection;
+                Conn.Execute("dbo.PopYojanaDocumentExt", dp, commandType: CommandType.StoredProcedure);
+                Entity.DocumentExtTranId = dp.Get<long>("@O_DocumentExtTranId");
+
+                return Entity;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void DeletePatient(YojanaTransaction Entity, User user)
+        {
+            try
+            {
+                var dp = new DynamicParameters();
+                dp.Add("@DetailId", Entity.DetailId, DbType.Int64, ParameterDirection.Input);
+                dp.Add("@UserName", user.UserName, DbType.String, ParameterDirection.Input);
+
+                var Conn = _connectionFactory.GetConnection;
+                Conn.Execute("dbo.DeletePatientDetail", dp, commandType: CommandType.StoredProcedure);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool IsDeleteAllowed(User entity)
+        {
+            try
+            {
+                var Connection = _connectionFactory.GetConnection;
+                var result = Connection.QueryFirst<string>("select dbo.IsDeleteAllowed(@UserName)", new { entity.UserName }, commandType: CommandType.Text);
+                return result == "Y";
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public IEnumerable<DocumentDetail> GetSurgeryDocuments(string SurgeryId, string Type)
+        {
+            return GetQuery("GET_SRGY_DTL_LST", SurgeryId, Type, string.Empty).ToList<DocumentDetail>();
+        }
+
+        public IEnumerable<DocumentDetail> GetDocuments(string TransactionId, string Flag)
+        {
+            var List = GetQuery("GET_DOCUMENT_LIST", TransactionId, Flag, string.Empty).ToList<DocumentDetail>();
+            List.ForEach(item => {
+                item.PopulateFileName();
+            });
+            return List;
+        }
+
         #endregion
 
+        #region Medical Record Repository
+        private DataTable GetQuery(string Type, string Pval1, string Pval2, string Pval3, string Pval4, string Pval5, string Pval6)
+        {
+            try
+            {
+                var dp = new DynamicParameters();
+                dp.Add("@P_TYPE", Type, DbType.String, ParameterDirection.Input);
+                dp.Add("@P_VAL_1", Pval1, DbType.String, ParameterDirection.Input);
+                dp.Add("@P_VAL_2", Pval2, DbType.String, ParameterDirection.Input);
+                dp.Add("@P_VAL_3", Pval3, DbType.String, ParameterDirection.Input);
+                dp.Add("@P_VAL_3", Pval4, DbType.String, ParameterDirection.Input);
+                dp.Add("@P_VAL_3", Pval5, DbType.String, ParameterDirection.Input);
+                dp.Add("@P_VAL_3", Pval6, DbType.String, ParameterDirection.Input);
+
+                var Conn = _connectionFactory.GetConnection;
+                var Result = Conn.ExecuteReader("WEBMASTER.dbo.GetQuery", dp, commandType: CommandType.StoredProcedure);
+                dt = new DataTable();
+                dt.Load(Result);
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public IEnumerable<DocMaster> GetDocMaster(string P_IPDNo, string P_OPDNo)
+        {
+            try
+            {
+                var Connection = _connectionFactory.GetConnection;
+                var List = Connection.Query<DocMaster>("select * from WEBMASTER.dbo.GetDocMaster(@p_ipdno, @p_opdno)", new { P_IPDNo, P_OPDNo }, commandType: CommandType.Text);
+                var Detail = GetDocDetail();
+                foreach (var item in List)
+                {
+                    item.Detail = Detail.Where(x => x.DocMstId == item.DocMstId).ToList();
+                }
+                return List;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public IEnumerable<DocDetail> GetDocDetail()
+        {
+            try
+            {
+                var Connection = _connectionFactory.GetConnection;
+                return Connection.Query<DocDetail>("select * from WEBMASTER.dbo.GetDocDetail()", commandType: CommandType.Text);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public DocMaster PopDocMaster(DocMaster Entity)
+        {
+            try
+            {
+                var dp = new DynamicParameters();
+                
+                dp.Add("@Action", Entity.Action, DbType.String, ParameterDirection.Input);
+                dp.Add("@IPDNo", Entity?.IPDNo, DbType.String, ParameterDirection.Input);
+                dp.Add("@OPDNo", Entity?.OPDNo, DbType.String, ParameterDirection.Input);
+                dp.Add("@Category", Entity.Category, DbType.String, ParameterDirection.Input);
+
+                dp.Add("@DocType", Entity.DocType, DbType.String, ParameterDirection.Input);
+                dp.Add("@UserName", _User.UserName.ToUpper(), DbType.String, ParameterDirection.Input);
+                dp.Add("@IP", Environment.MachineName.ToUpper(), DbType.String, ParameterDirection.Input);
+                dp.Add("@DocMstId", Entity.DocMstId, DbType.Int32, ParameterDirection.InputOutput);
+
+                var Conn = _connectionFactory.GetConnection;
+                Conn.Execute("WEBMASTER.dbo.PopDocMaster", dp, _Transaction, commandType: CommandType.StoredProcedure);
+                Entity.DocMstId = dp.Get<int>("DocMstId");
+                return Entity;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public DocDetail PopDocDetail(DocDetail Entity)
+        {
+            try
+            {
+                var dp = new DynamicParameters();
+                dp.Add("@Action", Entity.Action, DbType.String, ParameterDirection.Input);
+                dp.Add("@DocMstId", Entity?.DocMstId, DbType.Int32, ParameterDirection.Input);
+                dp.Add("@DocPath", Entity?.DocPath, DbType.String, ParameterDirection.Input);
+                dp.Add("@Remark", Entity?.Remark, DbType.String, ParameterDirection.Input);
+
+                dp.Add("@UserName", _User.UserName.ToUpper(), DbType.String, ParameterDirection.Input);
+                dp.Add("@IP", Environment.MachineName.ToUpper(), DbType.String, ParameterDirection.Input);
+                dp.Add("@DocDetailId", Entity.DocDetailId, DbType.Int32, ParameterDirection.InputOutput);
+
+                var Conn = _connectionFactory.GetConnection;
+                Conn.Execute("WEBMASTER.dbo.PopDocDetail", dp, _Transaction, commandType: CommandType.StoredProcedure);
+                Entity.DocDetailId = dp.Get<int>("DocDetailId");
+                return Entity;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
     }
 }

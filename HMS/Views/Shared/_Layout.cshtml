@@ -1,39 +1,38 @@
-﻿@using System.Web.Optimization;
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
-    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Lib/ag-grid-community/dist/styles/ag-grid.css" rel="stylesheet" />
-    <link href="~/lib/angularjs-toaster/toaster.min.css" rel="stylesheet" />
+    <link href="~/Lib/angularjs-toaster/toaster.min.css" rel="stylesheet" />
     <link href="~/Lib/ng-dialog/css/ngDialog.css" rel="stylesheet" />
-    <link href="~/lib/angularjs-datepicker/dist/angular-datepicker.css" rel="stylesheet" />
+    <link href="~/Lib/angularjs-datepicker/dist/angular-datepicker.css" rel="stylesheet" />
     <link href="~/Lib/angularjs-datetime-picker/angularjs-datetime-picker.css" rel="stylesheet" />
     <link href="~/Lib/ng-dialog/css/ngDialog-theme-default.css" rel="stylesheet" />
-    <link href="~/Lib/jQuery-datetimepicker.2.4.5/content/Content/jquery.datetimepicker.css" rel="stylesheet" />
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-light">
+    <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
+        <img src="~/Images/img.png" class="navbar-brand m-0" style="height:42px" />
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01"
                     aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                <a class="navbar-brand" href="#">HMS</a>
+                <a class="navbar-brand" href="@Url.Action("Index","Home")">HMS</a>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link" aria-current="page" href="@Url.Action("MedicalRecord","Home")">Medical Record</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Link</a>
                     </li>
                 </ul>
                 <form class="d-flex">
-                    <span class="me-2 fw-bold text-md-start mt-1">Welcome, @ViewBag.User</span>
+                    <span class="me-2 fw-bold text-md-start mt-1">@ViewBag.WelcomeUser</span>
                     <a class="btn btn-outline-success" href="@Url.Action("LogOut","Login")" type="submit">LogOut</a>
                 </form>
             </div>
@@ -47,20 +46,13 @@
         </footer>
     </div>
 
-    <script src="~/Scripts/modernizr-2.8.3.js"></script>
-    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/respond.min.js"></script>
-    <script src="~/Lib/angular/angular.js"></script>
-    <script src="~/Lib/angular/angular-resource.js"></script>
-    <script src="~/Lib/angular/angular-animate.js"></script>
-    <script src="~/Lib/angular/angular-sanitize.js"></script>
-    <script src="~/Lib/angular/angular-route.js"></script>
-    <script src="~/Lib/angular/angular-cookies.js"></script>
-    <script src="~/Lib/angularjs-datepicker/dist/angular-datepicker.min.js"></script>
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/angularjs")
     <script src="~/Lib/ng-dialog/js/ngDialog.js"></script>
     <script src="~/Lib/ag-grid-community/dist/ag-grid-community.js"></script>
-    <script src="~/lib/angularjs-toaster/toaster.js"></script>
+    <script src="~/Lib/angularjs-toaster/toaster.js"></script>
     <script src="~/Lib/angularjs-dropdown-multiselect/dist/src/angularjs-dropdown-multiselect.js"></script>
     <script src="~/App/app.js"></script>
     <script src="~/App/Directive/AutoComplete.js"></script>
@@ -68,19 +60,19 @@
     <script src="~/App/Directive/NumberOnly.js"></script>
     <script src="~/App/Directive/DatetimePicker.js"></script>
     <script src="~/Lib/angularjs-datetime-picker/angularjs-datetime-picker.js"></script>
-    <script src="~/lib/jquery.cookie.js"></script>
+    <script src="~/Lib/jquery.cookie.js"></script>
     @RenderSection("scripts", required: false)
-    @*<script>
-            function showLoader() {
-                if (!$("#wings").is(":visible")) {
-                    $("#wings").show();
-                }
+    <script>
+        function showLoader() {
+            if (!$("#wings").is(":visible")) {
+                $("#wings").show();
             }
+        }
 
-            function hideLoader() {
-                $("#wings").hide();
-            }
-        </script>*@
+        function hideLoader() {
+            $("#wings").hide();
+        }
+    </script>
 
 </body>
 </html>

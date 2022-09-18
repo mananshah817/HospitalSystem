@@ -25,18 +25,8 @@ namespace HMS.Controllers
         }
 
         #region Form
-        public ActionResult Yojana()
-        {
-            if (Session["User"] == null)
-            {
-                return RedirectToAction("Index", "Login");
-            }
-            var user = Session["User"] as User;
-            ViewBag.WelcomeUser = $"Welcome, {user.UserName.ToUpper()}";
-            return View();
-        }
         [BrowserSupport]
-        public ActionResult MRD()
+        public ActionResult MedicalRecord()
         {
             if (Session["User"] == null)
             {
