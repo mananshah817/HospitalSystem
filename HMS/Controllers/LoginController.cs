@@ -93,11 +93,6 @@ namespace HMS.Controllers
                 if (dbContext.UserRepo.IsValidUser(Model))
                 {
                     Session["User"] = Model;
-                    using (var Service = new CommonService(Model))
-                    {
-                        var Menu = Service.GetMenu();
-                        Session["Menu"] = Menu;
-                    }
                     var Identity = new ClaimsIdentity(new Claim[] { new Claim(ClaimTypes.Name, Model.UserName) }, "ApplicationCookie");
                     if (string.IsNullOrEmpty(Entity.Route) || RouteParam.Length != 2)
                         return RedirectToAction("MRD", "Home");
@@ -148,12 +143,6 @@ namespace HMS.Controllers
                 {
                     Session["User"] = Model;
                     var RouteValue = Entity.GetRouteValue();
-                    using (var Service = new CommonService(Model))
-                    {
-                        var Menu = Service.GetMenu();
-                        Session["Menu"] = Menu;
-                        form = Service.GetForm(Entity.Route.Base64Decode());
-                    }
                     var Identity = new ClaimsIdentity(new Claim[] { new Claim(ClaimTypes.Name, Model.UserName) }, "ApplicationCookie");
                     if (form != null)
                         return RedirectToAction(form.Action, form.Controller, RouteValue);

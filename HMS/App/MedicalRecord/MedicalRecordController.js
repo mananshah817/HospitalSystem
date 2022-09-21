@@ -1,5 +1,4 @@
-﻿//    let MedicalRecordController = function ($scope, MedicalRecordService, $timeout, toaster, ngDialog) {
-/// <reference path="../../Lib/ag-grid-community/dist/ag-grid-community.js" />
+﻿/// <reference path="../../Lib/ag-grid-community/dist/ag-grid-community.js" />
 (function () {
 
     let MedicalRecordController = function ($scope, MedicalRecordService, $timeout, toaster, ngDialog) {
@@ -16,7 +15,7 @@
             { headerName: "DocMstId*", field: "DocMstId", width: 150, sortable: true, resizable: true },
             { headerName: "IPDNo", field: "IPDNo", width: 180, sortable: true, resizable: true },
             { headerName: "OPDNo", field: "OPDNo", width: 100, sortable: true, resizable: true },
-            { headerName: "Category", field: "Category", width: 280, sortable: true, resizable: true },
+            { headerName: "Category", field: "Category.Name", width: 280, sortable: true, resizable: true },
             { headerName: "DocType", field: "DocType", width: 150, sortable: true, resizable: true },
             { headerName: "UserName", field: "UserName", width: 150, sortable: true, resizable: true }
         ];
@@ -32,11 +31,6 @@
         /// Private Methods
 
         function initialise() {
-            //MedicalRecordService.GetListOfType('DataType', null).$promise.then(
-            //    function (result) {
-            //        vm.dataTypeList = result;
-            //    }, function (error) {
-            //    });
             vm.selectedMaster = 'N';
             PopulateData(null, null);
         }
@@ -88,6 +82,7 @@
                     else {
                         mode = 'Edit';
                         vm.docMasterModel = row;
+                        setInputValue('Category', vm.docMasterModel.Category);
                     }
                     vm.docMasterBlockMode = mode;
                     break;
@@ -203,7 +198,7 @@
                     if (vm.selectedDoc) {
                         $timeout(function () {
                             vm.docMasterGridOptions.api.forEachNode(function (node, index) {
-                                if (node.data.Id === vm.selectedDoc.Id) {
+                                if (node.data.DocMstId === vm.selectedDoc.DocMstId) {
                                     node.setSelected(true, false);
                                     vm.docMasterModel = vm.selectedDoc;
                                 }
@@ -259,9 +254,9 @@
                     toaster.pop(result.data);
                     let allControls = 'form-control';
                     clearAutoCompleteByClass(allControls, $scope);
-                    vm.GetData(null, null);
                     vm.selectedMaster = 'N';
                     vm.toastDisplay(toastLiveExample, result.data.body, 'Success');
+                    initialise();
                     //window.location.reload();
                 }, function (error) {
                     vm.toastDisplay(toastLiveExample, error.data.body, 'Error');
@@ -279,9 +274,9 @@
             window.location.reload();
         };
 
-        //vm.SearchType = function (searchString, type) {
-        //    return MedicalRecordService.GetListOfType(type, searchString).$promise;
-        //};
+        vm.SearchType = function (searchString, type) {
+            return MedicalRecordService.GetListOfMRD(type, searchString).$promise;
+        };
 
         /// Public Methods
 

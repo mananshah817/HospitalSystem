@@ -134,7 +134,6 @@
     <Content Include="App\Directive\MessageBox.js" />
     <Content Include="App\Directive\NumberOnly.js" />
     <Content Include="App\Directive\uppercaseOnly.js" />
-    <Content Include="App\MedicalRecord\DocumentService.js" />
     <Content Include="App\MedicalRecord\MedicalRecordController.js" />
     <Content Include="App\MedicalRecord\MedicalRecordService.js" />
     <Content Include="Content\bootstrap-grid.css" />

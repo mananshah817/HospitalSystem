@@ -14,22 +14,20 @@
                 };
                 return $http.get(`/api/Home/MedicalRecord/${QuertType}`, config);
             },
-            //getListOfType: function (type, Pval1, Pval2, Pval3) {
-            //    if (type) {
-            //        var List = $resource('/api/Home/MedicalRecord/:type', { type: '@type' }, {
-            //            query: {
-            //                method: 'get',
-            //                isArray: true,
-            //                headers: {
-            //                    'Pval1': Pval1,
-            //                    'Pval2': Pval2,
-            //                    'Pval3': Pval3
-            //                }
-            //            }
-            //        });
-            //        return List.query({ type: type });
-            //    }
-            //},
+            GetListOfMRD: function (type, search) {
+                if (type) {
+                    var List = $resource('/api/Home/MedicalRecord/ListOfValue/:type', { type: '@type' }, {
+                        query: {
+                            method: 'get',
+                            isArray: true,
+                            headers: {
+                                'filter': search
+                            }
+                        }
+                    });
+                    return List.query({ type: type });
+                }
+            },
             SaveData: function (data) {
                 return $http.post('/api/Home/MedicalRecord/SaveData/', data);
             },

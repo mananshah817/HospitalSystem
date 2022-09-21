@@ -1,4 +1,4 @@
-﻿/// <reference path="../../lib/angular/angular.js" />
+﻿/// <reference path="../../Lib/angular/angular.js" />
 
 "use strict";
 hospitalApp.directive('vngAutoComplete', ['$q', '$parse', '$http', '$sce', '$timeout', '$templateCache', '$interpolate', 'toaster', function ($q, $parse, $http, $sce, $timeout, $templateCache, $interpolate, toaster) {

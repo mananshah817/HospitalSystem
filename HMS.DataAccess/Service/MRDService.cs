@@ -18,22 +18,14 @@ namespace HMS.DataAccess.Service
             User = user;
             DbContext = new UnitOfWork(new ConnectionFactory(Database.VEN), user);
         }
-        public IEnumerable<IPDDetails> SearchPatient(PatientSearchParam Param)
-        {
-            var List = DbContext.MRD.SearchPatient(Param);
-            foreach (var item in List)
-            {
-                if (string.IsNullOrEmpty(Param.Diagnosis))
-                    yield return item;
-                else if (DbContext.MRD.CheckifDiagnosisMatches(item.IPDNo, Param.Diagnosis))
-                    yield return item;
-            }
-        }
-        public IEnumerable<ListOfItem> GetIDType(string Type, string Filter)
+
+        #region Medical Record Data
+        public IEnumerable<ListOfItem> GetDocDD(string Type, string Search)
         {
             try
             {
-                return DbContext.MRD.GetTypeOf(Type, Filter);
+                Search = string.IsNullOrEmpty(Search) ? string.Empty : Search;
+                return DbContext.MRD.GetDocDD(Type, Search);
             }
             catch (Exception ex)
             {
@@ -41,7 +33,6 @@ namespace HMS.DataAccess.Service
             }
         }
 
-        #region Medical Record Data
         public IEnumerable<DocMaster> GetDocMaster(string IPDNo, string OPDNo)
         {
             try
@@ -50,7 +41,7 @@ namespace HMS.DataAccess.Service
                 var Detail = GetDocDetail();
                 List.ForEach(item =>
                 {
-                    //item.FormateData();
+                    item.FormateData();
                     item.Detail = Detail.Where(x => x.DocMstId == item.DocMstId).ToList();
                 });
                 return List.OrderBy(x => x.DocType);
@@ -112,6 +103,7 @@ namespace HMS.DataAccess.Service
                 return ex.GetTrace(Entity);
             }
         }
+
         public ServiceResponse<List<DocDetail>> PopDocDetail(List<DocDetail> Entity)
         {
             try

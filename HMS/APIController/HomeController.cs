@@ -3,13 +3,8 @@ using HMS.DataAccess.Infrastructure;
 using HMS.DataAccess.Service;
 using HMS.DataAccess.UnitOfwork;
 using HMS.Helper;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
@@ -72,6 +67,24 @@ namespace HMS.APIController
             {
                 var Trace = ex.GetTrace();
                 return Request.CreateResponse(Trace.httpStatus, Trace);
+            }
+        }
+
+        [HttpGet, Route("api/Home/MedicalRecord/ListOfValue/{search}")]
+        public HttpResponseMessage GetDocDD(string search, [FromHeader] string filter)
+        {
+            try
+            {
+                var User = HttpContext.Current.Session["User"] as User;
+                using (var Service = new MRDService(User))
+                {
+                    var Data = Service.GetDocDD(search, filter);
+                    return Request.CreateResponse(Data);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
         #endregion
