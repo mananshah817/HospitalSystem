@@ -177,6 +177,19 @@
                                                    placeholder="Enter Remark">
                                         </div>
 
+                                        <div class="form-group col-3 mb-1">
+                                            <input type="file" name="file" id="file" ng-model="vm.docDetailModel.file"/>
+                                            <input type="submit" value="Upload PDF" ng-click="vm.import(vm.docDetailModel)" />
+
+                                            @*@using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                            {
+                                                <input type="file" name="file" id="file" /><br><br>
+                                                <input type="submit" value="Upload PDF" ng-model="vm.docDetailModel" />
+                                                <br><br>
+                                                @ViewBag.Message
+                                            }*@
+                                        </div>
+
                                         <div class="col-12 text-center">
                                             <button type="button" class="btn btn-sm btn-success" ng-click="vm.saveBlockChanges('DocDetail','Add',   vm.docDetailModel)"
                                                     ng-if="vm.docDetailBlockMode=='Add'">

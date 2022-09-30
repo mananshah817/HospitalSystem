@@ -261,8 +261,55 @@
                 }, function (error) {
                     vm.toastDisplay(toastLiveExample, error.data.body, 'Error');
                 });
+
         };
 
+        vm.saves = function (item, f) {
+            debugger
+            showLoader();
+            var fd = new FormData();
+            var fileItem = item.file[0]._file;
+            if (item.file.length === 1)
+                fd.append(item.File, fileItem);
+
+            ExternalLabReportService.uploadDoc(item, fd).then(function (result) {
+                console.log(result.data);
+                toaster.pop({
+                    type: 'Success',
+                    title: 'Success',
+                    body: `Upload Done successfuly.`
+                });
+                ExternalLabReportService.ExternalLabReportQuery('ShowExtLabReportData', null, null, null).then(
+                    function (result) {
+                        vm.externalLabReport = result.data;
+                    });
+                hideLoader();
+            }, function (error) {
+                hideLoader();
+                console.log(error);
+            });
+        };
+
+       
+        vm.Upload = function (item, FileNm) {
+            debugger
+            var fd = new FormData();
+            var fileItem = item.file[0]._file;
+            if (item.file.length === 1)
+                fd.append(item.File, fileItem);
+
+            MedicalRecordService.uploadDoc(item, fd).then(function (result) {
+                console.log(result.data);
+                vm.toastDisplay(toastLiveExample, 'File Upload Successfuly.', 'Success');
+                //toaster.pop({
+                //    type: 'Success',
+                //    title: 'Success',
+                //    body: `Upload Done successfuly.`
+                //});
+            });
+        };
+
+     
         vm.toastDisplay = function (toastLiveExample, body, title) {
             let toast = new bootstrap.Toast(toastLiveExample);
             vm.Body = body;
@@ -278,6 +325,18 @@
             return MedicalRecordService.GetListOfMRD(type, searchString).$promise;
         };
 
+        vm.import = function (item, file, ff) {
+            debugger
+            var fd = new FormData();
+            var fileItem = item.file[0]._file;
+            if (item.file.length === 1)
+                fd.append(item.File, fileItem);
+            MedicalRecordService.uploadDoc(item, fd).then(function (result) {
+                toaster.pop(result.data);
+            }, function (error) {
+                toaster.pop(error.data);
+            });
+        };
         /// Public Methods
 
         //=====================================    Watch    =========================================

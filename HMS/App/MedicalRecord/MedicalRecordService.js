@@ -31,17 +31,16 @@
             SaveData: function (data) {
                 return $http.post('/api/Home/MedicalRecord/SaveData/', data);
             },
-            //uploadDoc: function (item, folder, files) {
-            //    var config = {
-            //        transformRequest: angular.identity,
-            //        headers: {
-            //            'MetaData': JSON.stringify(item),
-            //            'Folder': folder,
-            //            'Content-Type': undefined
-            //        }
-            //    };
-            //    return $http.post('/api/Home/MedicalRecord/UploadDoc/', files, config);
-            //},
+            uploadDoc: function (item, files) {
+                var config = {
+                    transformRequest: angular.identity,
+                    headers: {
+                        'MetaData': JSON.stringify(item),
+                        'Content-Type': undefined
+                    }
+                };
+                return $http.post('/api/Home/MedicalRecord/Upload/', files, config);
+            },
             //delete: function (patient) {
             //    return $http.post('/api/Home/MedicalRecord/Delete/Patient', patient);
             //},

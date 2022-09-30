@@ -3,8 +3,12 @@ using HMS.DataAccess.Infrastructure;
 using HMS.DataAccess.Service;
 using HMS.DataAccess.UnitOfwork;
 using HMS.Helper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
@@ -85,6 +89,41 @@ namespace HMS.APIController
             catch (Exception ex)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost, Route("api/Home/MedicalRecord/Upload")]
+        public HttpResponseMessage WhatsappExtReportSend()
+        {
+            var User = HttpContext.Current.Session["User"] as User;
+            UnitOfWork dbContext = new UnitOfWork(new ConnectionFactory(), User);
+            var MetaData = new DocDetail();
+            try
+            {
+                var httpRequest = HttpContext.Current.Request;
+                foreach (string item in httpRequest.Files)
+                {
+                    var postedFile = httpRequest.Files[item];
+                    MetaData = JsonConvert.DeserializeObject<DocDetail>(Request.Headers.GetValues("MetaData").First());
+                    var DocumentPath = ConfigurationManager.AppSettings["ExternalReportUpload"].ToUpper();
+                    if (MetaData.Document == Document.Predefined)
+                    {
+                        var extension = Path.GetExtension(postedFile.FileName);
+                        MetaData.FileName = $@"{MetaData.DetailId}_{MetaData.GUID}{extension}";
+                        postedFile.SaveAs($@"{DocumentPath}\{MetaData.FileName}");
+                        dbContext.MRD.PopDocDetail(MetaData);
+                    }
+                }
+                return Request.CreateResponse(MetaData);
+            }
+            catch (Exception ex)
+            {
+                var Trace = ex.GetTrace();
+                return Request.CreateResponse(Trace.httpStatus, Trace);
+            }
+            finally
+            {
+                dbContext.Dispose();
             }
         }
         #endregion
